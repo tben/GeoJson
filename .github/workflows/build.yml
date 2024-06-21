@@ -22,7 +22,7 @@ jobs:
         sudo apt-get install -y gdal-bin unzip
 
     - name: Download file
-      run: wget -q https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/110m/cultural/ne_110m_admin_0_countries.zip -O ne_110m_admin_0_countries.zip
+      run: wget -q https://naciscdn.org/naturalearth/110m/cultural/ne_110m_admin_0_countries.zip -O ne_110m_admin_0_countries.zip
 
     - name: Unzip file
       run: unzip ne_110m_admin_0_countries.zip -d ne_110m_admin_0_countries
