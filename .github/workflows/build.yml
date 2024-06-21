@@ -29,7 +29,7 @@ jobs:
 
     - name: Convert SHP to GeoJSON
       run: |
-        ogr2ogr -select admin,iso_a3 -f output/world-110m-geo.json ne_110m_admin_0_countries/ne_110m_admin_0_countries.shp
+        ogr2ogr -select admin,iso_a3 -f geojson output/world-110m-geo.json ne_110m_admin_0_countries/ne_110m_admin_0_countries.shp
 
     - name: Output file
       run: echo "GeoJSON file created:"
