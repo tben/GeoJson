@@ -29,17 +29,14 @@ jobs:
 
     - name: Convert SHP to GeoJSON
       run: |
-        ogr2ogr -select admin,iso_a3 -f geojson ne_110m_admin_0_countries.geojson ne_110m_admin_0_countries/ne_110m_admin_0_countries.shp
+        ogr2ogr -select admin,iso_a3 -f geojson world-110m.geojson ne_110m_admin_0_countries/ne_110m_admin_0_countries.shp
 
     - name: Output file
-      run: echo "GeoJSON file created:"
-
-    - name: Format file
       run: |
-        cat ne_110m_admin_0_countries.geojson | sed 's/"admin": /"name": /g' | sed 's/"iso_a3": /"ISO3166-1-Alpha-3": /g'  > ne_110m_admin_0_countries.geojson
+        echo "GeoJSON file created: world-110m.geojson"
 
     - name: Upload build artifact
       uses: actions/upload-artifact@v2
       with:
-        name: geojson-output
-        path: ne_110m_admin_0_countries.geojson
+        name: world-110m.geojson
+        path: world-110m.geojson
