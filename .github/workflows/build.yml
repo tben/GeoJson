@@ -1,0 +1,41 @@
+name: Download and Process Data
+
+on:
+  push:
+    branches:
+      - main  # Run this workflow on pushes to the main branch
+  pull_request:
+    branches:
+      - main  # Run this workflow on pull requests to the main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gdal-bin unzip
+
+    - name: Download file
+      run: wget -q https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/110m/cultural/ne_110m_admin_0_countries.zip -O ne_110m_admin_0_countries.zip
+
+    - name: Unzip file
+      run: unzip ne_110m_admin_0_countries.zip -d ne_110m_admin_0_countries
+
+    - name: Convert SHP to GeoJSON
+      run: |
+        ogr2ogr -select admin,iso_a3 -f geojson ne_110m_admin_0_countries/ne_110m_admin_0_countries.geojson ne_110m_admin_0_countries/ne_110m_admin_0_countries.shp
+
+    - name: Output file
+      run: echo "GeoJSON file created: ne_110m_admin_0_countries/ne_110m_admin_0_countries.geojson"
+
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: geojson-output
+        path: output/world-110m-geo.json
